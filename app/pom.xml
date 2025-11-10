@@ -99,6 +99,12 @@
 			<artifactId>fluent-hc</artifactId>
 			<version>4.5.14</version>
 		</dependency>
+		<dependency>
+             <groupId>com.h2database</groupId>
+             <artifactId>h2</artifactId>
+             <scope>runtime</scope>
+        </dependency>
+
 
 		<!-- SpringDoc OpenAPI (not in Spring BOM, keep version or import its BOM separately) -->
 		<dependency>
