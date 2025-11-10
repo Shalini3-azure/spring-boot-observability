@@ -33,7 +33,7 @@ ENTRYPOINT sh -c 'java \
   -Dotel.exporter.otlp.endpoint=$OTEL_EXPORTER_OTLP_ENDPOINT \
   -Dotel.exporter.otlp.metrics.endpoint=$OTEL_EXPORTER_OTLP_METRICS_ENDPOINT \
   -Dotel.exporter.otlp.logs.endpoint=$OTEL_EXPORTER_OTLP_LOGS_ENDPOINT \
-  -Dotel.exporter.otlp.headers="Authorization=Bearer ${OTEL_EXPORTER_OTLP_HEADERS}" \
+  -Dotel.exporter.otlp.headers="Authorization=Bearer $OTEL_EXPORTER_OTLP_HEADERS" \
   -jar /app.jar'
 
 
