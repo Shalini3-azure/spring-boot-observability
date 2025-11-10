@@ -19,14 +19,23 @@ ENV OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=https://otlp-gateway-prod-ap-south-1.grafan
 ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 ENV OTEL_LOG_LEVEL=debug
 
-# Use sh -c so the Render environment variable $GRAFANA_API_KEY is expanded at runtime
-ENTRYPOINT ["sh", "-c", "java \
+# # Use sh -c so the Render environment variable $GRAFANA_API_KEY is expanded at runtime
+# ENTRYPOINT ["sh", "-c", "java \
+#   -javaagent:/opentelemetry-javaagent.jar \
+#   -Dotel.exporter.otlp.endpoint=$OTEL_EXPORTER_OTLP_ENDPOINT \
+#   -Dotel.exporter.otlp.metrics.endpoint=$OTEL_EXPORTER_OTLP_METRICS_ENDPOINT \
+#   -Dotel.exporter.otlp.logs.endpoint=$OTEL_EXPORTER_OTLP_LOGS_ENDPOINT \
+#   -Dotel.exporter.otlp.headers=Authorization=Bearer $OTEL_EXPORTER_OTLP_HEADERS \
+#   -jar /app.jar"]
+
+ENTRYPOINT sh -c 'java \
   -javaagent:/opentelemetry-javaagent.jar \
   -Dotel.exporter.otlp.endpoint=$OTEL_EXPORTER_OTLP_ENDPOINT \
   -Dotel.exporter.otlp.metrics.endpoint=$OTEL_EXPORTER_OTLP_METRICS_ENDPOINT \
   -Dotel.exporter.otlp.logs.endpoint=$OTEL_EXPORTER_OTLP_LOGS_ENDPOINT \
-  -Dotel.exporter.otlp.headers=Authorization=Bearer $OTEL_EXPORTER_OTLP_HEADERS \
-  -jar /app.jar"]
+  -Dotel.exporter.otlp.headers="Authorization=Bearer $OTEL_EXPORTER_OTLP_HEADERS" \
+  -jar /app.jar'
+
 
 # # Set OpenTelemetry environment variables
 # ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp-gateway-prod-ap-south-1.grafana.net/otlp/v1/traces
