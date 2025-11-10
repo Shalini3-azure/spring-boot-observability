@@ -1,3 +1,12 @@
+# ========================
+# Server Config
+# ========================
+server:
+  port: ${PORT:8080} # Render injects PORT env variable
+
+# ========================
+# Management / Metrics
+# ========================
 management:
   endpoints:
     web:
@@ -11,12 +20,21 @@ management:
         http:
           server:
             requests: 'true'
+
+# ========================
+# Logging
+# ========================
 logging:
   pattern:
     level: "trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %p"
   level:
     com.example.app: DEBUG
+
+# ========================
+# Spring Config
+# ========================
 spring:
+  # H2 In-Memory Database
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
@@ -32,13 +50,13 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
-# Disable Redis entirely
-spring:
+  # Disable Redis entirely
   redis:
     enabled: false
 
-
+# ========================
+# Optional PostgreSQL / Redis (commented)
+# ========================
 # spring:
 #   datasource:
 #     url: jdbc:postgresql://postgres:5432/postgres
@@ -47,10 +65,9 @@ spring:
 #   jpa:
 #     hibernate:
 #       ddl-auto: update
-  # cache:
-  #   type: redis
-  # # https://stackoverflow.com/a/79180709
-  # data:
-  #   redis:
-  #     host: redis
-  #     port: 6379
+#   cache:
+#     type: redis
+#   data:
+#     redis:
+#       host: redis
+#       port: 6379
