@@ -11,6 +11,14 @@ RUN mvn clean package -DskipTests --quiet
 FROM amazoncorretto:24-alpine3.21
 COPY --from=build /build/target/*.jar /app.jar
 COPY --from=download /home/curl_user/opentelemetry-javaagent.jar /opentelemetry-javaagent.jar
+
+# Set OpenTelemetry environment variables
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp-gateway-prod-ap-south-1.grafana.net/otlp/v1/traces
+ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=https://otlp-gateway-prod-ap-south-1.grafana.net/otlp/v1/metrics
+ENV OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=https://otlp-gateway-prod-ap-south-1.grafana.net/otlp/v1/logs
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+ENV OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $OTEL_EXPORTER_OTLP_HEADERS"
+ENV OTEL_LOG_LEVEL=debug
 ENTRYPOINT ["java", \
   "-javaagent:/opentelemetry-javaagent.jar", \
   "-jar", "/app.jar" \
